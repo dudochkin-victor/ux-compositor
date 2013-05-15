@@ -1,0 +1,59 @@
+#!/bin/sh
+
+xml="$1"; shift;
+dst="$1"; shift;
+std="$1"; shift;
+
+source "./$std";
+
+# We'll build up a blocks that are not necessery to the tests.xml to work
+# but sometimes very hand to have them around.
+presteps="";
+poststeps="";
+[ "$SetPreSteps" = "" ] \
+	|| presteps="\t\t\t<pre_steps>\n\t\t\t\t<step>$SetPreSteps</step>\n\t\t\t</pre_steps>";
+[ "$SetPostSteps" = "" ] \
+	|| poststeps="\t\t\t<post_steps>\n\t\t\t\t<step>$SetPostSteps</step>\n\t\t\t</post_steps>";
+
+logfiles="";
+if [ "$SetLogFiles" != "" ];
+then
+    logfiles="\t\t\t<get>\n";
+    for logfile in $SetLogFiles;
+    do 
+        logfiles="$logfiles\t\t\t\t<file>$logfile</file>\n";
+    done
+    logfiles="$logfiles\t\t\t</get>";
+fi
+
+# Iterate the testcases and build up xml block for each of them.
+testcases="";
+for testdatafile;
+do
+	casefile="${testdatafile%.testdata}.py";
+	CaseInsignificant="";
+	CaseName="";
+	CaseDescription="";
+	CaseRequirement="";
+	CaseTimeout="";
+	CaseInsignificant="";
+	source "$testdatafile";
+
+	testcases="$testcases\t\t\t<case name=\"$CaseName\" description=\"$CaseDescription\" requirement=\"$CaseRequirement\" timeout=\"$CaseTimeout\"";
+	[ "$CaseInsignificant" = "" ] \
+		|| testcases="$testcases insignificant=\"$CaseInsignificant\"";
+	testcases="$testcases>\n\t\t\t\t<step expected_result=\"0\">$dst/$casefile</step>\n\t\t\t</case>\n";
+done
+
+# Create the actual whole xml template.
+testsuite_template="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n<testdefinition version=\"0.1\">\n\t<suite name=\"$SuiteName\" domain=\"$SuiteDomain\" type=\"$SuiteType\" level=\"$SuiteLevel\">\n\t\t<set name=\"$SetName\" description=\"$SetDescription\" feature=\"$SetFeature\" timeout=\"$SetTimeout\">\n$presteps\n$testcases\n\t\t\t<environments>\n\t\t\t\t<scratchbox>$SetScratchbox</scratchbox>\n\t\t\t\t<hardware>$SetHardware</hardware>\n\t\t\t</environments>\n$logfiles\n$poststeps\n\t\t</set>\n\t</suite>\n</testdefinition>\n";
+
+# Output it.
+echo -e "$testsuite_template" > "$xml";
+if type -p xmllint > /dev/null;
+then
+	td="/usr/share/test-definition/testdefinition";
+	exec xmllint --noout --schema "$td-syntax.xsd" --schema "$td-tm_terms.xsd" "$xml";
+fi
+
+exit 0

@@ -1,0 +1,572 @@
+mcompositor (0.8.5-1) unstable; urgency=low
+
+  * add WM_NAME support to MWindowPropertyCache, used in a plugin
+  * adjust number of damage events we wait from 2 to 1
+  * positionWindow(): change Z value immediately when stacking to the bottom
+  * mapRequestEvent(): don't switch to compositing for input-only windows
+  * Fixes: NB#225458 - Screen does not get updated fast for VKB
+  * fix decorated window stacking
+  * don't try to GetWMName(None)
+  * fix WINDOW_TYPE assert
+  * Fixes: BMC#10288, unable to exit xterm application using close button
+
+ -- Adam Endrodi <ext-adam.endrodi@nokia.com>  Tue, 22 Feb 2011 15:41:29 +0200
+
+mcompositor (0.8.4-1) unstable; urgency=low
+
+  * add mdecorator D-BUS interface
+  * Fixes: NB#225039 - All system modal dialogs should not be drawn on top of lock screen
+  * main(): skip desktop settings, we don't have such windows
+  * Don't leak in MWindowPropertyCache::realGeometry()
+  * Apply parts from MRQ 71 + MDecoratorFrame cleanups
+  * Fixes: NB#224356 - MCompositeWindow's window pinging is slow and unreliable
+  * Fixes: NB#223544 - Often Lock Screen UI is transparent
+  * Avoid 1-2 blocking X queries on mapping time
+  * Redirect the window that TYPE_INPUT window is transient for
+  * renamed requestReplied -> replyCollected, fixed the FIXME for pict formats
+  * Fixes: NB#223269 - EGLImages are held allocated longer than necessary
+  * Fixes: NB#223280 - mcompositor should assume the vkb window as non-obscuring for the application
+  * Fixes: NB#222844 - Compositor makes two windows direct at the same time
+  * Fixes: NB#216765 - In Enter passcode view, pressing Cancel button does not return
+  * MCompositeWindow::MCompositeWindow(): init window_visible for input-only wins
+  * Renew MWindowPropertyCache so that XCB's pending replies don't pile up.
+  * use counters instad of the monotonic clock for pinging
+  * search for .desktop files without a .launch
+  * clean up the mdecorator dbus interface
+  * remove MWindowPropertyCache::window_type_atom
+  * depend on Qt 4.7
+  * Fixes: NB#216540 Blank toolbar and extra space below status bar is shown
+  * split test20
+  * functional tests structure cleanup
+  * don't try to clear _NET_SUPPORTING_WM_CHECK if X is gone
+  * make the xserverpinger process appear as xserverping in ps
+  * make test6.py a little faster
+  * Fixes: NB#219175 - "Application not responding" dialog blocks QEmu runtime
+  * make MCompositeWindowGroup::updateWindowPixmap() explicit
+  * make test20 pass
+  * don't let the same window to be added to a group twice
+
+ -- Adam Endrodi <ext-adam.endrodi@nokia.com>  Tue, 08 Feb 2011 11:29:38 +0200
+
+mcompositor (0.8.3-1) unstable; urgency=low
+
+  * Dont leak damage object passed to a cache that becomes invalid.
+  * add 'M' option to windowctl to send _MEEGOTOUCH_TRANSITION messages
+  * Minimize time between MapRequest and the following XMapWindow call
+  * Fixes: NB#187924 - Status area doesnt update while Field Test Display in use
+  * Plug some leaks reported in NB#194581 and some robustness improvements
+  * Fixes: NB#216765 - In Enter passcode view, pressing Cancel button does not return to call UI when the incoming call is not answered in the background
+  * add Z command to windowctl for tracking damage events of a window
+  * Fixes: NB#216314 - With attached xserver fixes for CompositeUnredirectWindow global alpha is set incorrectly
+  * Fixes: BMC#11128 [REG]Sometimes system will die after tapped close button in an application.
+  * install public libdecorator headers
+  * destroy unused property cache
+  * use windowctl MTT to send _MEEGOTOUCH_TRANSITION
+  * dont let mdecorator managing clients falsely
+  * MCompositorWindow timer handling simplification
+  * scratchbox issue fixed.
+
+ -- Adam Endrodi <ext-adam.endrodi@nokia.com>  Tue, 25 Jan 2011 12:20:30 +0200
+
+mcompositor (0.8.2-1) unstable; urgency=low
+
+  * fix some issues in MCompositeWindowGroup::updateWindowPixmap()
+  * Fixes: NB#215570 - Cropped text in 'application's not responding' message
+  * Fixes: NB#215389 - Fullscreen window sometimes stays in composited mode
+  * Fixes: NB#209217 - ARGB windows show up black in SB/x86
+  * Fix related to NB#212859 - If touch screen lock times out on CherryUI, cannot unlock
+  * Depending on the plugin, avoid NB#215576 crash
+  * Fixes: NB#214816 - Multi-part damage is handled incorrectly in compositor
+  * Fixes: NB#214825 - Fetching rectangles for damage region is expensive when compositor shouldn't need the rectangles
+  * dumpState(): add command line and InputOnly info printing
+  * Fixes: NB#213095 - Call-history opens in the background while receiving 2nd missed call
+  * Change windowHung signal to have bool argument + make windowctl answer ping
+  * Implement support for partial window drawing etc.
+  * Fixes: NB#206559 - The QDialog items don't draw correctly
+  * activateWindow()s with configure_reqs on mapEvent()
+  * make it possible to specify the plugin to load on the command line
+  * print the window type and state in dumpState()
+  * draw mode for windowctl
+  * don't forget print the bottomest window of stacking_list
+  * restore accidentally removed translations
+  * Fixes: NB#212830 - on a random note Swiping away from ongoing call view is not possible
+  * STACKING_DEBUGGING and dumpState() improvements
+  * Fixes: NB#210945 - SMS/Chat message UI opened in background the second time from contacts
+  * optimize MCompositeManagerPrivate::raiseWithTransients()
+  * remove orig_list
+  * fix stacking with transiency loops
+  * draw mode for windowctl
+
+ -- Adam Endrodi <ext-adam.endrodi@nokia.com>  Fri, 07 Jan 2011 13:18:15 +0200
+
+mcompositor (0.8.1-2) unstable; urgency=low
+
+  * Fixes: NB#213779 - Compositor doesn't send synthetic VisibilityUnobscured to Status Indicator Menu
+  * make test21.py pass even if there is a notification window before the test
+  * make all tests pass even if there are notifications
+
+ -- Adam Endrodi <ext-adam.endrodi@nokia.com>  Tue, 21 Dec 2010 14:42:39 +0200
+
+mcompositor (0.8.1-1) unstable; urgency=low
+
+  * Fixes: NB#207977 - Select connection dialog is not opened on display in certain s ituation
+  * Remove old dock code and obsolete _DUI_STATUSBAR_OVERLAY
+  * MCompositeManagerPrivate::addItem(): use property cache to get the window type
+  * Replace setExposeDesktop's innards with a setWindowObscured() call
+  * Improve fix for NB#202667 - Search application launches automatically
+  * Implement support for multi-part decorator
+  * Implement new UI for application not responding
+  * polish debian/control
+  * install test scripts in the right directory
+  * refresh translations/recovery.ts
+  * remove MDecoratorWindow::itemRectToScreenRect() from the class definition
+  * sick button removal
+  * use QString()s in the zombie dialog
+  * handle all kind of decoration geometries correctly
+  * move mcompositor-test-init.py to mcompositor-utils
+  * uninitialized variables in MCompositeWindow
+  * simplify MCompositeWindow::itemChange()
+  * rebuild translation files only when needed
+  * remove MCompositeManagerPrivate::exposeDesktop()
+  * add MWindowPropertyCache::orientationAngle()
+  * combined fix of segfaults, leaks and invisible windows
+  * make MCompositeManagerExtension::desktopWindow() const
+  * make the decorator object available to plugins
+  * MCompositeManager::xtrace() is leaking
+  * facility to trace window sizing
+
+ -- Adam Endrodi <ext-adam.endrodi@nokia.com>  Mon, 20 Dec 2010 14:25:36 +0200
+
+mcompositor (0.8.0-2) unstable; urgency=low
+
+  * rebuild mcompositor-dev for all architectures
+
+ -- Adam Endrodi <ext-adam.endrodi@nokia.com>  Wed, 08 Dec 2010 15:01:17 +0200
+
+mcompositor (0.8.0-1) unstable; urgency=low
+
+  * New: MCompositeWindowGroup to render several windows in one texture.
+  * Fixes: NB#206365 - Device freeze if Application Crash
+  * Remove a bunch of deprecated functions
+  * Fixes: NB#202713 - New implementation for fullscreen switching
+  * more fixes for NB#202713 + fix status menu stacking issue
+  * Limit xoverlay changes for NB#202713 to the EGL backend only
+  * Fixes: NB#202667 - Search application launches automatically
+  * fix transiency detection for the decorator
+  * add MCompositeManagerPrivate::changed_properties to signify when we should
+    check stacking/focus/etc
+  * Fixes: NB#206347 - Status indicator menu is opened on top of home, not the topmost 
+  * Fixes: NB#207947 - System dialog opens in wrong orientation
+  * Fixes: NB#208395 - Lock ui is revealing another copy of it
+  * don't set_as_current_app !isMapped() windows
+  * delete bogus "compositing not enabled!" warning
+  * debugging enhancements for stacking
+  * make test13.py and test14.py pass
+  * try to make test20.py pass
+  * tighten package dependencies
+  * Fixes: NB#202389 - mcompositor is wasting time printing stuff to console
+  * exposee desktop in checkStacking()
+  * die if plugins are unloadable
+  * delete rootWindow::_NET_SUPPORTING_WM_CHECK on exit
+  * set right decoratorRect in case it's too large
+
+ -- Adam Endrodi <ext-adam.endrodi@nokia.com>  Tue, 07 Dec 2010 13:54:46 +0200
+
+mcompositor (0.7.9-1) unstable; urgency=low
+
+  * Fixes: NB#205707 - System dialogs are not shown
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Wed, 17 Nov 2010 14:54:49 +0200
+
+mcompositor (0.7.8-1) unstable; urgency=low
+
+  * Fixes: NB#203276 - Show unmap animation on UnmapNotify, not on _NET_CLOSE_WINDOW
+  * Fixes: http://bugs.meego.com/show_bug.cgi?id=8957
+  * Fixes: NB#199378 - Only Input Method toolbar is visible after reopening Conversational View - Move all redirection of windows to MTexturePi
+  * Fixes: NB#199856 - Application catches tap from screen unblanking when Status Menu fails to open - allow setting NormalState when a window
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Thu, 28 Oct 2010 16:19:02 +0300
+
+mcompositor (0.7.7-1) unstable; urgency=low
+
+  * Fixes: NB#196487 - display doesn't become dimmed
+  * Various optimizations and fixes	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Thu, 28 Oct 2010 00:31:43 +0300
+
+mcompositor (0.7.6-1) unstable; urgency=low
+
+  * Fixes: NB#198346 - Not able to answer coming calls when device lock...
+  * Fixes: NB#187502 - Fn+Backspace works simultaneously as a task switcher...
+
+ -- Kimmo Hämäläinen <kimmo.hamalainen@nokia.com>  Fri, 22 Oct 2010 10:31:05 +0300
+
+mcompositor (0.7.5-1) unstable; urgency=low
+
+  * Fixes: NB#189364 - Same properties are changed multiple times for all bg apps..
+  * Fixes: NB#189519 - compositor calls eglSwapBuffers without rendering anything	
+  * Fixes: NB#196385 - Display is not updated correctly after screen blank on-off sequence, take two
+  * New interface: custom window animation handler
+  * New interface: stacking list 	
+	
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Tue, 12 Oct 2010 14:14:43 +0300
+
+mcompositor (0.7.4-1) unstable; urgency=low
+
+  * Fixes: NB#196316 - Ugly flicker during startup-animation
+  * New: Changes: testing binaries into own package
+  * New: Restored texture from pixmap functionality software rendering	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Tue, 05 Oct 2010 16:46:41 +0300
+
+mcompositor (0.7.3-1) unstable; urgency=low
+
+  * Fixes: NB#196194 - MCOMPOSITOR titlebar misalignment causes Toast to be unusable
+  * Fixes: NB#195550 - Status Menu opens in background of application
+  * Fixes: NB#187120 - Flicker when opening the dialer page	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Thu, 30 Sep 2010 03:29:48 +0300
+
+mcompositor (0.7.2-1) unstable; urgency=low
+
+  * Fixes: NB#194203 - MCompositor slows down application start from the grid by 0,8s
+  * Fixes: NB#182860 - Pin query appears..., 
+  * Fixes: NB#192454 - Devicelock UI flickers...
+  * Fixes: NB#188373 Global alpha being reset when running omapxvsink	
+  * New: Improvements and texture getter for shader effects API
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Fri, 24 Sep 2010 12:58:13 +0300
+
+mcompositor (0.7.1-1) unstable; urgency=low
+
+  * Fixes: NB#193821 - leaking pixmap references
+  * Fixes: NB#188336 - setVideoGlobalAlpha does not work
+  * Fixes: NB#193948 - application state is reported incorrectly to tdriver
+  * Fixes: NB#186732 - Reaction times for switching from Home Screen to fullscreen are above target for many applications
+  * New development package	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Fri, 17 Sep 2010 12:37:43 +0300
+
+mcompositor (0.7.0-1) unstable; urgency=low
+
+  * Fixes: NB#191286 - mcompositor is eating CPU from the background in basic panning use cases
+  * Fixes: NB#189756 - COREWEB: /usr/bin/mcompositor 'MWindowPropertyCache::isDecorator MCompositeManagerPrivate::compareWindows MCompositeManagerPrivate::roughSort MCompositeManagerPrivate::bindWindow'
+  * New: Modularized compositing framework with support for extensions and custom window effects using shaders	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Wed, 15 Sep 2010 00:11:28 +0300
+
+mcompositor (0.6.1-1) unstable; urgency=low
+
+  * Fixes: NB#180786 - QWidget::show() does not fire subsequent X11 window map requests
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Tue, 14 Sep 2010 13:29:10 +0300
+
+mcompositor (0.6.0-1) unstable; urgency=low
+
+  * Fixes: NB#186402 - The application is getting minimized on clicking close button
+  * Improvements: beginAnimation() and endAnimation() API
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Thu, 09 Sep 2010 23:42:14 +0300
+
+mcompositor (0.5.10-1) unstable; urgency=low
+
+  * Fixes: NB#184226 - PIN code dialog uses initial_state==IconicState when it shows itself
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Wed, 08 Sep 2010 17:06:40 +0300
+
+mcompositor (0.5.9-1) unstable; urgency=low
+
+  * Fixes: NB#184773 - Application dialog gets stucked when left metakey + backspace buttons are pressed
+  * Fixes: NB#181749 - Window animations feel 'cheap' compared to Fremantle
+  * Fixes: NB#183538 - Blue screen displays for ~2 secs while booting the device
+  * Fixes: NB#180628 - visibility notification coming late
+  * Fixes: NB#186827 - mcompositor causes device freezing
+  * Fixes: NB#186832 - MCompositor crashes at app termination	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Wed, 18 Aug 2010 19:43:31 +0300
+
+mcompositor (0.5.8-1) unstable; urgency=low
+
+  * Fixes: NB#185979 - Managing separate child window causing mcompositor to crash
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Tue, 17 Aug 2010 14:31:42 +0300
+
+mcompositor (0.5.7-1) unstable; urgency=low
+
+  * Fixes: NB#181749 - Window animations feel 'cheap' compared to Fremantle
+  * Fixes: NB#184017 - Window minimizes or closes on press
+  * Fixes: NB#184549 - Device lock can be bypassed by pressing Fn+Backspace
+  * Fixes: NB#184522 - Compositor is packaged with debug symbols
+  * Fixes: NB#171592 - setGlobalAlpha does not work
+  * Fixes: NB#184071 - enter/exitDisplayEvent() calls are wrong for system dialogs	
+  * Improvements: Avoid XGetWindowAttributes call in MDecoratorFrame by using the cache
+  * Imrpovements: MapRequesterPrivate class for syncrhonized mapping in selective compositing	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Tue, 10 Aug 2010 21:26:27 +0300
+
+mcompositor (0.5.6-1) unstable; urgency=low
+
+  * Fixes: NB#183088 - mcompositor is not buildable with cs2009q3 (hardfp) toolchain
+  * Fixes: NB#177840 - Window manager brings only the first transient... for real	
+  * Fixes: NB#182237 - Closing a hung application with the decorator doesn't kill the process
+  * Improvements: Fix coverity warnings. Make getTopmostApp() return transient app windows. Fix missing visiblity notifies	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Thu, 05 Aug 2010 16:57:28 +0300
+
+mcompositor (0.5.5-1) unstable; urgency=low
+
+  * Fixes: NB#182237 - Closing a hung application with the decorator doesn't kill the process
+  * Fixes: NB#177840 - Window manager brings only the first transient (WM_TRANSIENT_FOR) window foreground if application has multiple transient windows open.
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Tue, 03 Aug 2010 11:49:05 +0300
+
+mcompositor (0.5.4-1) unstable; urgency=low
+
+  * Fixes: NB#171592 - setGlobalAlpha does not work
+  * Fixes: NB#181287 - Pressing Fn key when browser is opened, minimizes browser
+  * Fixes: NB#182237 - Closing a hung application with the decorator doesn't kill the process
+  * Fixes: NB#182701 - Launched application goes back ground instead fore ground
+	
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Wed, 28 Jul 2010 13:04:16 +0300
+
+mcompositor (0.5.3-1) unstable; urgency=low
+
+  * Fixes: NB#181926 - Repetitively minimizing/maximizing an app causes mcompositor to crash
+  * Fixes: NB#174346 - application grid briefly visible when opening the tklock	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Tue, 27 Jul 2010 16:28:53 +0300
+
+mcompositor (0.5.2-1) unstable; urgency=low
+
+  * Fixes: NB#181396 - Homescreen does not come up
+
+ -- Kimmo Hämäläinen <kimmo.hamalainen@nokia.com>  Tue, 27 Jul 2010 11:28:39 +0300
+
+mcompositor (0.5.1-1) unstable; urgency=low
+
+  * Fixes: NB#180870 - COREWEB: /usr/bin/mcompositor 'MCompositeManagerPrivate::getTopmostApp MCompositeManagerPrivate::checkStacking MCompositeManagerPrivate::enableRedirection MCompositeManagerPrivate::mapEvent MCompositeManagerPrivate::x11EventFilter'
+  * Fixes: NB#175785 - decorator should use a shaped 16-bit window
+  * Improvement: scene-painting optimizations
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Mon, 19 Jul 2010 16:02:20 +0300
+
+mcompositor (0.5.0-1) unstable; urgency=low
+
+  * Fixes: NB#179016 - Strange mcompositor crash: "double free or corruption (fasttop)
+  * Fixes: NB#177583 - PIN query is not shown after boot
+  * Fixes: NB#180220 - Backspace in text entry minimizes app to switcher
+  * Fixes: NB#177840 - Window manager brings only the first transient (WM_TRANSIENT_FOR) window foreground if application has multiple transient windows open.
+  * Fixes: NB#173246 - Custom behavior for the home button in call-ui when the device is locked
+  * Fixes: NB#177932 - Notifications are not visible
+  * Fixes: NB#168065 - VisibilityNotify signal received multiple times
+  * Fixes: NB#176845 - Internet connection and Date Settings windows are viewed underneath the Status Indicator Menu
+  * Fixes: NB#180562 - Frozen application freezes the whole UI
+  * Fixes: NB#180408 - COREWEB: /usr/bin/mcompositor 'MTexturePixmapItem::cleanup ~MTexturePixmapItem qDeleteInEventHandler QObject::event'	
+  * Improvements: Optimized checkStacking code	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Sun, 04 Jul 2010 21:29:17 +0300
+
+mcompositor (0.4.10-4) unstable; urgency=low
+
+  * Fixes: changelog fixed
+
+ -- Jani Mikkonen <jani.3.mikkonen@nokia.com>  Fri, 02 Jul 2010 11:06:57 +0300
+
+mcompositor (0.4.10-3) unstable; urgency=low
+
+  * Fixes: missing tests.xml from functional tests package added
+
+ -- Jani Mikkonen <jani.3.mikkonen@nokia.com>  Thu, 01 Jul 2010 16:25:00 +0300
+
+mcompositor (0.4.10-2) unstable; urgency=low
+
+  * Fixes: NB#175086 - QMenu texts open as black boxes
+  * Fixes: NB#174193 - MDecorator opens in landscape when device is in portrait orientation
+  * Fixes: NB#175245 - Alarm window/dialog doesn't get redraw after call-ui window priority change	
+  * Improvements: initial support for window transitions when opening a new window or closing an existing one
+  * Lots of alreadyfixed critical bugs	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Sun, 20 Jun 2010 21:02:34 +0300
+
+mcompositor (0.4.9-1) unstable; urgency=low
+
+  * Fixes: NB#173590 - Calling MApplicationWindow::showFullScreen() flashes Homescreen visible when run first time	
+  * Fixes: NB#169665 - Calling showMinimized() for a new window does not open it minimised
+  * Fixes: NB#175351 - bluetooth transfer to screenlocked device confuses window management	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Tue, 15 Jun 2010 19:30:02 +0300
+
+mcompositor (0.4.8-1) unstable; urgency=low
+
+  * Fixes: NB#172937 - WM_TRANSIENT_FOR stacking does not work correctly
+  * Fixes: NB#173375 - mcompositor doesn't respect CWOverrideRedirect
+  * Fixes: NB#173857 - Contents of windows of prestarted applications not shown until tapped
+  * Fixes: NB#174008 - A fullscreen window got decorated...
+  * Fixes: NB#173979 - showFullScreen is not working as it expected...
+  * Improvements: reduced window creation time added optimizations	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Fri, 11 Jun 2010 14:22:00 +0300
+
+mcompositor (0.4.7-2) unstable; urgency=low
+
+  * Fixes: NB#168086 - Pure Qt GUI Lists go invisible after mdecorator crashes with sig 11
+  * Fixes: NB#171534 - 2 Statusbars shown when rotation angle is non 0 and there's in fullscreen mode with on going call
+  * Fixes: NB#170819 - Framework menubar is covering top side application's drawing area
+  * Fixes: NB#170228 - In certain scenerio Incoming call view task dosen´t appear in switcher	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Tue, 08 Jun 2010 12:55:48 +0300
+
+mcompositor (0.4.6-1) unstable; urgency=low
+
+  * Fixes: NB#171045 - repeatedly locking/unlocking the device crashes mcompositor
+	
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Wed, 26 May 2010 18:52:18 +0300
+
+mcompositor (0.4.5-1) unstable; urgency=low
+
+  * Fixes: NB# 170068 -  [Qt 4.7] mcompositor crash starting messaging-ui
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Tue, 25 May 2010 14:36:55 +0300
+
+mcompositor (0.4.4-1) unstable; urgency=low
+
+  * Fixes: NB#170360 - invisible status menu window during call
+  * Fixes: NB#167655 - Lazily shutdown and restarted application disappears when minimized
+
+ -- Abdiel Janulgue <abj@codefuassassin.research.nokia.com>  Mon, 17 May 2010 12:57:09 +0300
+
+mcompositor (0.4.3-1) unstable; urgency=low
+
+  * Fixes: NB#168176 - VKB gives no haptic feedback after screen blank
+  * Fixes: NB#168298 - Can not focus to text field after volume slider is invoked  
+  * Fixes: NB#168399 - duicompositor uses glBindTexture against spec
+
+
+ -- Abdiel Janulgue <abj@codefuassassin.research.nokia.com>  Mon, 10 May 2010 15:57:16 +0300
+
+mcompositor (0.4.2-1) unstable; urgency=low
+
+  * Fixes: NB#167601 - VKB gives no visual feedback after screen blank
+
+ -- Abdiel Janulgue <abj@codefuassassin.research.nokia.com>  Fri, 07 May 2010 16:43:39 +0300
+
+mcompositor (0.4.1-2) unstable; urgency=low
+
+  * Fixes: NB#167210 - USB query pop-up is minimized and cannot be maximized
+  * Fixes: NB#167601 - VKB gives no visual feedback after screen blank
+  * Fixes: NB#162326 - WM_STATE is not always Iconic even if a window is in switcher
+  * Fixes: NB#166130 - Unmapped window stacking order is broken
+  * Improvements: Call handling support 
+  * Improvements: EGLImage texture from pixmap functionality	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Thu, 22 Apr 2010 22:52:05 +0300
+
+mcompositor (0.4.0-1) unstable; urgency=low
+
+  * Fixes: NB#164133 - Unable to minimize applications after unlocking the device
+  * Fixes: NB#163811 - Resizing and positioning of decorated (non-DUI) windows is broken
+  * Fixes: NB#162344 - Window manager fails to obey the full screen hint	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Thu, 15 Apr 2010 11:46:28 +0300
+`
+mcompositor (0.3.10-2) unstable; urgency=low
+
+  * Fixes: NB#163684 - Reboot needed to recover if device sleeps with USB
+    dialog open
+  * Using the "MeeGo Touch UI" brand instead of "Direct UI"
+  * Fixed regression in window transitions	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Mon, 12 Apr 2010 16:06:12 +0300
+
+duicompositor (0.3.9-1) unstable; urgency=low
+
+  * Fixes: NB#163799 - Taping on the text field minimizes the app but not
+    the VKB allowing to write to the text field
+  * Now reset decorator position to (0,0) for fullscreen decorated windows.
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Sun, 11 Apr 2010 16:18:10 +0300
+
+duicompositor (0.3.8-1) unstable; urgency=low
+
+  * Fix for NB#161629 regression
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Fri, 09 Apr 2010 13:21:26 +0300
+
+duicompositor (0.3.7-1) unstable; urgency=low
+
+  * Fixes: NB#161212 - application window is invisible after rotation
+  * Fixes: NB#161363 - able to control application when it is minimized to
+    switcher
+  * Fixes: NB#159759 - The duicompositor is causing very high wakeups which
+    prevents the device to go in idle mode.
+  * Fixes: NB#146931 - duicompositor doesn't build in non-/usr prefix
+  * Fixes: NB#162800 - DuiDialog Screen is not responding when its modality
+    is set to true.
+  * New stacking manager	
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Mon, 29 Mar 2010 18:48:14 +0300
+
+duicompositor (0.3.6-1) unstable; urgency=low
+
+  * In-scene status bar support	
+  * Global alpha support
+
+ -- Abdiel Janulgue <abdiel.janulgue@nokia.com>  Sat, 13 Mar 2010 17:20:01 +0200
+
+duicompositor (0.3.5-1) unstable; urgency=low
+
+  * Fixes: NB#157682 Screen blanks with pin query, doesnot revert back to UI either
+  * Fixes: NB#159687 Statusbar can't be hidden
+  * Fixes: NB#157682 Screen blanks with pin query, doesnot revert back to UI either
+  * Initial support for transient pop-ups
+  * DuiDecorator improvements: HW-rendering + display proper window title
+  * Support for _NET_WM_STATE_FULLSCREEN 
+  * List supported protocols using _NET_SUPPORTED
+
+ -- Abdiel Janulgue <abj@codefuassassin.research.nokia.com>  Thu, 11 Mar 2010 22:24:04 +0200
+
+duicompositor (0.3.4~1) unstable; urgency=low
+
+  * Fixes: NB#158496 No window gets activated when application close
+  * Fixes: NB#157476 Minimized application doesn't launch after tapping on same application from application grid
+  * Fixes: NB#153641 duidecorator hiding window content
+  * Fixes: NB#149265 Tap on close(X) "select internet connection" Fennec minimizes to home
+  * Fixes: NB#152376, Plain X application window title bar is not always on the top edge of the screen
+  * Support for CITA functional tests
+
+ -- Abdiel Janulgue <abj@codefuassassin.research.nokia.com>  Tue, 09 Mar 2010 00:11:35 +0200
+
+duicompositor (0.3.3~1) unstable; urgency=low
+
+  * Release candidate 1
+
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Thu, 11 Feb 2010 16:30:20 +0200
+
+duicompositor (0.3.2-1) unstable; urgency=low
+
+  * Fixes: NB#153770 Closing a window when app has multiple windows causes exit with error code 1
+  * Fixes: NB#155109 vkb hidden in background when changing layout to portrait
+  * Stabilize dock support
+  * Some minor improvements 	
+  * Removed delay mapping of windows	
+ -- Abdiel Janulgue <abj@codefuassasin.research.nokia.com>  Mon, 01 Feb 2010 22:21:38 +0200
+
+duicompositor (0.3.1-1) unstable; urgency=low
+
+  * Merged back improved plain OpenGL support
+  * XCompositeRedirectManual redirection
+  * Smoothen transition animations
+  * Fixes NB#146931 non-/usr prefix issue
+  * Fixes: NB#153641 duidecorator hiding window content
+  * _NET_WM_WINDOW_TYPE_DOCK support	
+
+ -- Abdiel Janulgue <abj@codefuassassin.research.nokia.com>  Wed, 13 Jan 2010 13:11:07 +0200
+
+duicompositor (0.3.0-1) unstable; urgency=low
+
+  * Fixes: NB#151216 _NET_CLIENT_LIST and _NET_CLIENT_LIST_STACKING do not work anymore
+  * Fixes: NB#140299 device is flickering while virtual key board is launching(Qt 4.6.0~git20090911-0maemo1+0m6)
+  * Fixes: NB#147843 DuiCompositor is leaking memory
+  * Optimize composited window rendering 	
+
+ -- Abdiel Janulgue <abj@codefuassassin.research.nokia.com>  Mon, 14 Dec 2009 14:25:07 +0200
