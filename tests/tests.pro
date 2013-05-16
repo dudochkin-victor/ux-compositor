@@ -2,6 +2,6 @@ TEMPLATE=subdirs
 
 SUBDIRS = windowctl \
           windowstack \
-          focus-tracker \
-          functional \
-	  appinterface
+          focus-tracker
+#	  appinterface
+#          functional \
