@@ -4,7 +4,7 @@ target.path=/usr/bin
 
 QMAKE_CFLAGS+= -Wall
 
-LIBS += -lX11
+LIBS += -lX11 -lXm
 
 DEPENDPATH += .
 INCLUDEPATH += .  
